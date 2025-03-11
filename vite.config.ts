@@ -20,4 +20,27 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  // Optimisation de la configuration pour le build de production
+  build: {
+    outDir: 'dist',
+    // Augmenter la limite d'avertissement de taille des chunks
+    chunkSizeWarningLimit: 2000,
+    // Désactiver le sourcemap en production pour réduire la taille
+    sourcemap: false,
+    // Optimisation des chunks
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-router-dom'],
+          ui: ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu', '@radix-ui/react-tabs'],
+        }
+      }
+    }
+  },
+  // Résoudre les problèmes de compatibilité d'environnement
+  define: {
+    // Supprimer le warning de process.env
+    'process.env': {},
+    global: {},
+  }
 }));

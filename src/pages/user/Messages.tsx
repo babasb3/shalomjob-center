@@ -17,7 +17,7 @@ import NotAuthenticated from '@/components/messages/NotAuthenticated';
 const Messages = () => {
   const { user } = useAuth();
   const [showMobileConversation, setShowMobileConversation] = useState(false);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 768);
   
   // Use the messages hook for all messaging functionality
   const {
@@ -38,6 +38,8 @@ const Messages = () => {
 
   // Track window size to determine mobile view
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
       if (window.innerWidth >= 768) {
